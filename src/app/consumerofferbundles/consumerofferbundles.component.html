@@ -1,0 +1,50 @@
+<div class="full">
+    <app-navbar></app-navbar>
+        <h1 class="articleTitle">Offer Bundles</h1>
+    <div>
+        <span class="articleSubTitle">SKU:</span>
+        <input [(ngModel)]="searchText" placeholder="Enter search text here">
+    </div>
+    <table id="ursData" stye="cellpadding:1px; cellspacing:1px;" border="1px" >
+      <tr>
+          <th>Product SKU</th>
+          <th>Status</th>
+          <th>Consumer Offers</th>
+      </tr>
+      <tr *ngFor="let offer of allConsumerOfferBundles | orderBy: key : reverse |  filter :  {  productSKU: searchText}">
+        <td  (click)="sort('offer.offerBundle.productSKU')">{{offer.offerBundle.productSKU}}</td>
+        <td [style.color]="offer.offerBundle.bundleStatusKey.status === 'Accepted' ? 'darkorange' : 'blue'">          
+          {{offer.offerBundle.bundleStatusKey.status}} </td>
+        <td>
+            <table id="ursData" stye="cellpadding:1px; cellspacing:1px;" border="1px" >
+                <tr style="background-color: lightgrey">
+                    <th width="60">Consumer</th>
+                    <th>Product Name</th>
+                    <th width="40">Quantity</th>
+                    <th width="40">Product Price</th>
+                    <th width="40">Offer Price</th>
+                    <th width="40">Offer Date</th>
+                    <th width="40">Status</th>
+                </tr>
+                <tr *ngFor="let co of offer.consumerOfferList">
+                    <td>{{co.coconsumerKeyId.handle}}</td>
+                    <td>{{co.compkeyId.mpproductKeyId.name}}</td>
+                    <td align='right'>{{co.quantity}} </td>
+                    <td align='right'>${{co.compkeyId.price| number:'1.2-5'}}</td>
+                    <td align='right'
+                    [style.color]="co.compkeyId.price <= co.maxPrice ? 'red' : 'black'"
+                    >${{co.maxPrice | number:'1.2-5' }}</td>
+                    <td [style.color]="co.offerredDate <= today ? 'red' : 'black'">
+                    {{co.offerredDate | date:'MM/dd/yyyy'}} </td>
+                    <td [style.color]="co.coofferStatusKeyId.status === 'Approved' ? 'darkorange' : 'blue'">
+                    {{co.coofferStatusKeyId.status}} </td>
+              </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <pagination-controls (pageChange)="page = $event" id="1"
+          maxSize="10" pages = "{10,20}" directionLinks="true" autoHide="true">
+    </pagination-controls>
+  </div>
+  

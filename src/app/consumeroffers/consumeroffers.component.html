@@ -1,0 +1,31 @@
+<div class="full">
+  <app-navbar></app-navbar>
+  <h1 class="articleTitle">Consumer Offers</h1>
+  <div>
+      <span class="articleSubTitle">Consumer Name:</span>
+      <input [(ngModel)]="searchText" placeholder="Enter search text here">
+  </div>
+  <table id="ursData" stye="cellpadding:1px; cellspacing:1px;" border="1px">
+    <tr style="background-color: lightblue">
+      <th>Consumer Name</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Product Price</th>
+        <th>Offer Price</th>
+        <th>Offer Date</th>
+        <th>Status</th>
+    </tr>
+    <tr *ngFor="let value of allConsumerOffers | consumerOfferFilter : searchText | paginate: {itemsPerPage: selectedValue, currentPage:page, id: '1'}; let i = index">
+      <td>{{value.coconsumerKeyId.handle}}</td>
+      <td>{{value.compkeyId.mpproductKeyId.name}}</td>
+      <td align='right'>{{value.quantity}} </td>
+      <td align='right'>{{value.compkeyId.price}}</td>
+      <td align='right'>{{value.maxPrice | currency}} </td>
+      <td>{{co.offerredDate | date:'MM/dd/yyyy'}} </td>
+      <td>{{value.coofferStatusKeyId.status}} </td>
+    </tr>
+  </table>
+  <pagination-controls (pageChange)="page = $event" id="1"
+        maxSize="10" pages = "{10,20}" directionLinks="true" autoHide="true">
+  </pagination-controls>
+  </div>
